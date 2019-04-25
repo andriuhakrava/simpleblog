@@ -74,5 +74,8 @@
 			flex-direction: column;
 			align-items: center;
 		}
+		.user-avatar {
+			padding-top: 18px;
+		}
 	}
 </style>
