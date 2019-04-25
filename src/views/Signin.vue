@@ -1,7 +1,10 @@
 <template>
 	<div class="container">
 		<div v-if="loading">
-			<img src="../../public/images/H8rC.gif" height="350" width="350" alt="loading">
+			<img  src="../../public/images/loader.gif" 
+						height="350" 
+						width="350" 
+						alt="loading" />
 		</div>
 		<form class="form-login" v-else @submit.prevent="onLogin">
 			<div class="error-box" v-if="errorMessage">
@@ -72,7 +75,7 @@ import { required, email, minLength } from 'vuelidate/lib/validators';
 					username: '',
 					email: '',
 					password: ''
-				}
+				},
 			}
 		},
 		validations: {
@@ -87,7 +90,7 @@ import { required, email, minLength } from 'vuelidate/lib/validators';
 				password: {
 					required,
         	minLength: minLength(6)
-				}
+				},
 			},
 		},
 		computed: {
@@ -96,7 +99,7 @@ import { required, email, minLength } from 'vuelidate/lib/validators';
 			},
 			errorMessage(){
 				return this.$store.state.errorMessage;
-			}
+			},
 		},
 		created(){
 			this.$store.commit('setError', null);
@@ -112,8 +115,8 @@ import { required, email, minLength } from 'vuelidate/lib/validators';
 				this.user.username = '';
 				this.user.email = '';
 				this.user.password = '';
-			}
-		}
+			},
+		},
 	}
 </script>
 

@@ -2,34 +2,72 @@
 	<div class="container">
 		<h2 class="mt-5">Create new fresh and interesting POST</h2>
 		<div v-if="loading">
-			<img src="../../public/images/H8rC.gif" height="350" width="350" alt="loading">
+			<img  src="../../public/images/loader.gif" 
+						height="350" 
+						width="350" 
+						alt="loading" />
 		</div>
 		<form v-else class="form-post" @submit.prevent="addPost">
 			<div class="form-group">
 		    <label for="post-title">Title: </label>
-		    <input type="text" class="form-control" id="posttitle" placeholder="Enter Post title" v-model.trim="post.title" required>
+		    <input  type="text" 
+		    				class="form-control" 
+		    				id="posttitle" 
+		    				placeholder="Enter Post title" 
+		    				v-model.trim="post.title" 
+		    				:class="{ 'is-invalid': $v.post.title.$error }" 
+		    				@blur="$v.post.title.$touch()" 
+		    				required />
+		    <div class="invalid-feedback" v-if="!$v.post.title.required">
+          Title field is required
+        </div>
 		  </div>
 		  <div class="form-group">
 		    <label for="post-text">Text: </label>
-		    <textarea class="form-control" id="posttext" placeholder="Enter post text" v-model.trim="post.text" rows="6" required></textarea>
+		    <textarea class="form-control" 
+		    					id="posttext" 
+		    					placeholder="Enter Post text" 
+		    					v-model.trim="post.text" 
+		    					rows="6" 
+		    					:class="{ 'is-invalid': $v.post.text.$error }" 
+		    					@blur="$v.post.text.$touch()"
+		    					required>
+		    </textarea>
+		    <div class="invalid-feedback" v-if="!$v.post.text.required">
+          Post text field is required
+        </div>
 		  </div>
 		  <div class="form-group">
 		  	<label for="img-upload" class="custom-file-upload">
 				    Add Image:
 				</label>
-				<input id="img-upload" type="file" ref="postImg" multiple accept="image/*" 
-		    				@change="uploadImage" />
+				<div><em>Image upload is required.</em></div>
+				<input  id="img-upload" 
+								type="file" 
+								ref="postImg" 
+								@change="uploadImage"
+								multiple 
+								accept="image/*"
+		    				@blur="$v.post.postURL.$touch()" />
 		  </div>
 		  <div v-if="post.postURL">
-		  	<img :src="post.postURL" height="200" :alt="fileName" class="image-preview" />
+		  	<img  :src="post.postURL" 
+		  				:alt="fileName" 
+		  				class="image-preview"
+		  				height="200" />
 		  </div>
-		  <button type="submit" :disabled="disabledButton" class="btn btn-success">Add Post</button>
+		  <button type="submit" 
+		  				:disabled="$v.$invalid"
+		  				class="btn btn-success">
+		  	Add Post
+		  </button>
 		</form>
 	</div>
 </template>
 
 <script>
 	import { mapActions } from 'vuex';
+	import { required } from 'vuelidate/lib/validators';
 
 	export default {
 		data(){
@@ -38,7 +76,7 @@
 					title: '',
 					text: '',
 					postURL: ''
-				}
+				},
 			}
 		},
 		computed: {
@@ -51,18 +89,26 @@
 			loading(){
 				return this.$store.state.loading;
 			},
-			disabledButton(){
-				return this.post.title === '' || this.post.text === '';
-			}
+		},
+		validations: {
+			post: {
+				title: {
+					required
+				},
+				text: {
+					required
+				},
+				postURL: {
+					required
+				},
+			},
 		},
 		methods: {
 			uploadImage(){
 				let img = this.$refs.postImg.files[0];
 				this.post.postURL = img ? URL.createObjectURL(img) : '';
-				console.log(img);
 			},
 			addPost(){
-				if (this.post.title === '' || this.post.text === '') return;
 				if (this.post.title !== '' && this.post.text !== ''){
 					let formData = new FormData();
 					formData.append('title', this.post.title);
@@ -72,8 +118,8 @@
 					formData.append('active', true);
 					this.$store.dispatch('createPost', formData);
 				}
-			}
-		}
+			},
+		},
 	}
 </script>
 
@@ -95,5 +141,8 @@
 	}
 	.image-preview {
 		margin-bottom: 22px;
+	}
+	.invalid-feedback {
+		font-style: italic;
 	}
 </style>

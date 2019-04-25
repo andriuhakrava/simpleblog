@@ -90,13 +90,13 @@ import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
 					email: '',
 					password1: '',
 					password2: ''
-				}
+				},
 			}
 		},
 		computed: {
 			errorMessage(){
 				return this.$store.state.errorMessage;
-			}
+			},
 		},
 		validations: {
 			userInfo: {
@@ -116,8 +116,8 @@ import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
 	        sameAs: sameAs((vue) => {
 	          return vue.password1
 	        })
-	      }
-			}
+	      },
+			},
 		},
 		created(){
 			this.$store.commit('setError', null);
@@ -132,7 +132,7 @@ import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
 				formData.append("password2", this.userInfo.password2);
 				this.$store.dispatch('registerUser', formData);
 			},
-		}
+		},
 	}
 </script>
 

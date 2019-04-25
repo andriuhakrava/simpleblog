@@ -2,15 +2,29 @@
 	<nav class="navbar navbar-light navigation" style="background-color: #e3f2fd;">
     <div class="navigation-topic">
       <router-link to="/" class="navbar-brand">SimpleBlog</router-link>
-      <router-link to="/new" active-class="active-navigation-item" class="nav-item nav-link" v-if="isAuthenticated">Post a topic</router-link>
+      <router-link to="/new" active-class="active-navigation-item" 
+      						 class="nav-item nav-link" v-if="isAuthenticated">
+      	Add new post
+      </router-link>
     </div>
     <div class="navigation-user">
-      <span class="user-info" v-if="isAuthenticated">Hi, {{ this.$store.state.authenticatedUser }}!</span>
-      <router-link to="/signin" active-class="active-navigation-item" class="nav-item nav-link" v-if="!isAuthenticated">Sign in</router-link>
-      <router-link to="/signup" active-class="active-navigation-item" class="nav-item nav-link" v-if="!isAuthenticated">Sign up</router-link>
-      <a class="nav-item nav-link" 
-              @click.prevent="signOut" v-if="isAuthenticated">Sign out</a>
-      <router-link v-if="isAuthenticated" to="/userslist" class="nav-item nav-link" active-class="active-navigation-item" >Users List</router-link>
+      <span class="user-info" v-if="isAuthenticated">
+      	Hi, {{ this.$store.state.authenticatedUser }}!
+      </span>
+      <router-link to="/signin" active-class="active-navigation-item" 
+      						 class="nav-item nav-link" v-if="!isAuthenticated">
+      	Sign in
+      </router-link>
+      <router-link to="/signup" active-class="active-navigation-item" 
+      						 class="nav-item nav-link" v-if="!isAuthenticated">
+      	Sign up
+      </router-link>
+      <a class="nav-item nav-link" @click.prevent="signOut" v-if="isAuthenticated">			Sign out
+      </a>
+      <router-link to="/userslist" active-class="active-navigation-item" 
+      						 class="nav-item nav-link" v-if="isAuthenticated">
+      	Users List
+      </router-link>
     </div>
   </nav>
 </template>
@@ -24,7 +38,6 @@
     },
    	methods: {
       signOut(){
-        console.log('Log Out!');
         this.$store.dispatch('logoutUser');
         this.$router.replace('/signin');
       }
@@ -32,9 +45,6 @@
     created(){
       this.$store.commit('setUsername', localStorage.getItem('username'));
     },
-    // updated(){
-    //   this.username = localStorage.getItem('username');
-    // }
 	}
 </script>
 
@@ -64,6 +74,7 @@
 	  }
 	  .navbar-brand {
 	    margin-right: 0;
+	    font-size: 1.5em;
 	  }
 	  .navigation-topic {
 	    display: block;
@@ -73,6 +84,9 @@
 	@media screen and (max-width: 350px){
 	  .navbar {
 	    font-size: 14px;
+	  }
+	  .navbar-brand {
+	  	margin-right: 13px;
 	  }
 	}
 </style>

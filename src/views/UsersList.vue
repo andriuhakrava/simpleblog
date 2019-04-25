@@ -2,7 +2,7 @@
 	<div class="container">
 		<h2 class="mt-4">Users List</h2>
 		<div v-if="loading">
-			<img 	src="../../public/images/H8rC.gif" 
+			<img 	src="../../public/images/loader.gif" 
 						height="350" 
 						width="350" 
 						alt="loading" />
@@ -10,7 +10,7 @@
 		<div v-else class="user-card" v-for="(user, index) in usersList" :key="user.id">
 			<div class="user-info">
 				<div class="user-avatar">
-					<img 	src="../../public/images/149072.png" 
+					<img 	src="../../public/images/avatar.png" 
 								height="128" 
 								width="128" 
 								alt="user" />
@@ -32,18 +32,18 @@
 		},
 		computed: {
 			usersList(){
-        return this.$store.state.usersList;
+        return this.$store.getters.usersList;
       },
       usersListDate(){
-     		const usersJoinedDates = this.$store.state.usersList.map(function(user) {
+     		const usersJoinedDates = this.$store.getters.usersList.map(user => {
      			return new Date(Date.parse(user.date_joined)).toLocaleString();	
      		});
      		return usersJoinedDates;
       },
       loading(){
       	return this.$store.state.loading;
-      }
-		}
+      },
+		},
 	}
 </script>
 
