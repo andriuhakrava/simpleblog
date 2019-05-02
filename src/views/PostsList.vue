@@ -26,9 +26,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
   computed: {
+    ...mapGetters(['loading']),
     postsList(){
       return this.$store.getters.postsList;
     },
@@ -37,9 +39,6 @@ export default {
         return new Date(post.created).toLocaleString(); 
       });
       return postsDates;
-    },
-    loading(){
-      return this.$store.state.loading;
     },
     errorMessage(){
       return this.$store.state.errorMessage;

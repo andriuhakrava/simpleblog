@@ -67,7 +67,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { required, email, minLength } from 'vuelidate/lib/validators';
+	
 	export default {
 		data(){
 			return {
@@ -94,9 +96,7 @@ import { required, email, minLength } from 'vuelidate/lib/validators';
 			},
 		},
 		computed: {
-			loading(){
-				return this.$store.state.loading;
-			},
+			...mapGetters(['loading']),
 			errorMessage(){
 				return this.$store.state.errorMessage;
 			},
@@ -112,9 +112,6 @@ import { required, email, minLength } from 'vuelidate/lib/validators';
 				formData.append('email', this.user.email);
 				formData.append('password', this.user.password);
 				this.$store.dispatch('loginUser', formData);
-				this.user.username = '';
-				this.user.email = '';
-				this.user.password = '';
 			},
 		},
 	}

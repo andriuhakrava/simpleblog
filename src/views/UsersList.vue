@@ -26,22 +26,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 	export default {
 		created(){
+			console.log('Hello!');
 			this.$store.dispatch('getUsers');
 		},
 		computed: {
-			usersList(){
-        return this.$store.getters.usersList;
-      },
+			...mapGetters(['loading', 'usersList']),
       usersListDate(){
-     		const usersJoinedDates = this.$store.getters.usersList.map(user => {
+     		const usersJoinedDates = this.usersList.map(user => {
      			return new Date(Date.parse(user.date_joined)).toLocaleString();	
      		});
      		return usersJoinedDates;
-      },
-      loading(){
-      	return this.$store.state.loading;
       },
 		},
 	}

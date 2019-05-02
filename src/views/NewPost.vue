@@ -66,8 +66,8 @@
 </template>
 
 <script>
-	import { mapActions } from 'vuex';
 	import { required } from 'vuelidate/lib/validators';
+	import { mapGetters } from 'vuex';
 
 	export default {
 		data(){
@@ -80,14 +80,12 @@
 			}
 		},
 		computed: {
+			...mapGetters(['loading']),
 			fileName(){
 				if(this.$refs.postImg.files[0]){
 					let index = this.$refs.postImg.files[0].name.indexOf('.');
 					return this.$refs.postImg.files[0].name.substring(0, index);
 				}
-			},
-			loading(){
-				return this.$store.state.loading;
 			},
 		},
 		validations: {
