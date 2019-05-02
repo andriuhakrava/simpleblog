@@ -14,7 +14,7 @@
         <div class="post-text">
           <h4>{{ post.title }}</h4>
           <p>{{ post.text }}</p>
-          <p class="post-text_created">
+          <p class="post-text_created" v-if="postsListDate">
             <strong>Created at:</strong> 
             {{ postsListDate[index] }}
           </p>
@@ -29,23 +29,17 @@ import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters(['loading']),
-    postsList(){
-      return this.$store.getters.postsList;
-    },
+    ...mapGetters(['loading', 'postsList', 'errorMessage']),
     postsListDate(){
-      const postsDates = this.$store.getters.postsList.map(post => {
+      const postsDates = this.postsList.map(post => {
         return new Date(post.created).toLocaleString(); 
       });
       return postsDates;
-    },
-    errorMessage(){
-      return this.$store.state.errorMessage;
     }
   },
   beforeMount(){
+    this.$store.dispatch('manageError', null);
     this.$store.dispatch('fetchPosts');
-    this.$store.commit('setErrorMessage', null);
   },
 }
 </script>

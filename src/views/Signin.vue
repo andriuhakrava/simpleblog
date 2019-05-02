@@ -95,14 +95,10 @@ import { required, email, minLength } from 'vuelidate/lib/validators';
 			},
 		},
 		computed: {
-			...mapGetters(['loading']),
-			errorMessage(){
-				return this.$store.state.errorMessage;
-			},
+			...mapGetters(['loading', 'errorMessage']),
 		},
 		created(){
-			this.$store.commit('setError', null);
-			this.$store.commit('setErrorMessage', null);
+			this.$store.dispatch('manageError', null);
 		},
 		methods: {
 			onLogin(){

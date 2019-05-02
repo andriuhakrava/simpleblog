@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<div class="error-box" v-if="this.$store.state.error">
+		<div class="error-box" v-if="errorMessage">
 			<p v-if="errorMessage.username">{{ errorMessage.username[0] }}</p>
 			<p v-if="errorMessage.email">{{ errorMessage.email[0] }}</p>
 			<p v-if="errorMessage.password1">{{ errorMessage.password1[0] }}</p>
@@ -81,7 +81,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
+
 	export default {
 		data(){
 			return {
@@ -94,9 +96,7 @@ import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
 			}
 		},
 		computed: {
-			errorMessage(){
-				return this.$store.state.errorMessage;
-			},
+			...mapGetters(['errorMessage']),
 		},
 		validations: {
 			userInfo: {
@@ -120,8 +120,7 @@ import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
 			},
 		},
 		created(){
-			this.$store.commit('setError', null);
-			this.$store.commit('setErrorMessage', null);
+			this.$store.dispatch('manageError', null);
 		},
 		methods: {
 			sendUserInfoForRegistration(){

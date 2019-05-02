@@ -24,6 +24,12 @@ export default new Vuex.Store({
 		},
 		loading(state){
 			return state.loading;
+		},
+		errorMessage(state){
+			return state.errorMessage;
+		},
+		authenticatedUser(state){
+			return state.authenticatedUser;
 		}
 	},
 	mutations: {
@@ -53,79 +59,78 @@ export default new Vuex.Store({
 		}
 	},
 	actions: {
-		registerUser({ commit, state }, payload){
-			commit('setLoading', true);
-			commit('setError', null);
-			commit('setErrorMessage', null);
+		manageLoading({ commit }, payload){
+			commit('setLoading', payload);
+		},
+		manageError({ commit, state }, payload){
+			commit('setError', payload);
+			commit('setErrorMessage', payload);
+		},
+		manageUser({ commit }, payload){
+			localStorage.setItem('jwt', payload.token);
+			localStorage.setItem('orig_iat', payload.token);
+			localStorage.setItem('username', payload.user.username);
+			commit('setToken', {
+				token: payload.token
+			});
+			commit('setUsername', localStorage.getItem('username'));
+			router.push('/');
+		},
+		registerUser({ commit, state, dispatch }, payload){
+			dispatch('manageLoading', true);
+			dispatch('manageError', null);
 			axios.post('/rest-auth/registration/', payload)
 						.then(response => {
-							commit('setLoading', false);
-							localStorage.setItem('jwt', response.data.token);
-							localStorage.setItem('orig_iat', response.data.token);
-							localStorage.setItem('user', response.data.user.pk);
-							localStorage.setItem('username', response.data.user.username);
-							commit('setToken', {
-								token: response.data.token
-							});
-							commit('setUsername', localStorage.getItem('username'));
-							router.push('/');
+							dispatch('manageLoading', false);
+							dispatch('manageUser', response.data);
 						})
 						.catch(error => {
-							commit('setLoading', false);
-							commit('setError', error);
+							dispatch('manageLoading', false);
+							dispatch('manageError', error);
 							if (state.error.request.status === 400){
 								commit('setErrorMessage', JSON.parse(state.error.request.responseText));
 							}
 						});
 		},
-		loginUser({ commit, state }, payload){
-			commit('setLoading', true);
-			commit('setError', null);
-			commit('setErrorMessage', null);
+		loginUser({ commit, state, dispatch }, payload){
+			dispatch('manageLoading', true);
+			dispatch('manageError', null);
 			axios.post('/rest-auth/login/', payload)
 						.then(response => {
-							commit('setLoading', false);
-							localStorage.setItem('jwt', response.data.token);
-							localStorage.setItem('orig_iat', response.data.token);
-							localStorage.setItem('user', response.data.user.pk);
-							localStorage.setItem('username', response.data.user.username);
-							commit('setToken', {
-								token: response.data.token
-							});
-							commit('setUsername', localStorage.getItem('username'));
-							router.push('/');
+							dispatch('manageLoading', false);
+							dispatch('manageUser', response.data);
 						})
 						.catch(error => {
-							commit('setLoading', false);
-							commit('setError', error);
+							dispatch('manageLoading', false);
+							dispatch('manageError', error);
 							if (state.error.response.status === 400){
 								commit('setErrorMessage', JSON.parse(state.error.response.request.responseText));
 							}
 						});
 		},
-		logoutUser({ commit }){
-   		localStorage.clear();
+		clearStore({ commit, dispatch }){
+			dispatch('manageError', null);
 			commit('setUsername', null);
 			commit('setToken', { token: null });
-			commit('setError', null);
 			commit('setPostsList', null);
 			commit('setUsersList', null);
 		},
-		getUsers({ commit, state }){
-			commit('setLoading', true);
+		logoutUser({ commit, dispatch }){
+   		localStorage.clear();
+			dispatch('clearStore');
+		},
+		getUsers({ commit, state, dispatch }){
+			dispatch('manageLoading', true);
+			dispatch('manageError', null);
 			const config = { headers: { 'Authorization': 'JWT ' + localStorage.getItem('jwt'),
                        'Content-Type': 'multipart/form-data' }};
 			axios.get('/users-list/', config).then(response => {
-				commit('setLoading', false);
+				dispatch('manageLoading', false);
 				commit('setUsersList', response.data);
 			})
 			.catch(error => {
-				commit('setLoading', false);
-				commit('setError', error);
-				if (error.response.data.detail){
-					commit('setErrorMessage', state.error.response.data.detail);
-					router.push('/signin');
-				}
+				dispatch('manageLoading', false);
+				dispatch('manageError', error);
 			});
 		},
 		verifyToken({ commit, state }){
@@ -140,61 +145,49 @@ export default new Vuex.Store({
 											})
 											.catch(error => {
 												localStorage.clear();
-												commit('setUsername',false);
-												commit('setError', error);
+												commit('setUsername', false);
+												dispatch('manageError', error);
 												if (error.response.data.non_field_errors){
 													commit('setErrorMessage', state.error.response.data.non_field_errors[0]);
-													router.push('/signin');
 												}
+												router.push('/signin');
 											});
 							}
 							return response;
 						})
 						.catch(error => {
 							localStorage.clear();
-							commit('setError', error);
-							commit('setUsername',false);
+							dispatch('manageError', error);
+							commit('setUsername', false);
 							router.push('/signin');
 						});
 		},
-		fetchPosts({ commit, state }){
-			commit('setLoading', true);
-			commit('setError', null);
+		fetchPosts({ commit, dispatch }){
+			dispatch('manageLoading', true);
+			dispatch('manageError', null);
 			const config = { headers: { "Authorization": "JWT " + localStorage.getItem("jwt") }};
 			axios.get('/posts/', config).then(response => {
-				commit('setLoading', false);
-				if (response.data){
-					commit('setPostsList', response.data);
-				}
+				dispatch('manageLoading', false);
+				commit('setPostsList', response.data);
 			})
 			.catch(error => {
-				commit('setLoading', false);
-				commit('setError', error);
-				if (error.response.data.detail){
-					commit('setErrorMessage', state.error.response.data.detail);
-					router.push('/signin');
-				}
+				dispatch('manageLoading', false);
+				dispatch('manageError', error);
 			});;
 		},
-		createPost({ commit }, payload){
-			commit('setLoading', true);
-			commit('setError', null);
+		createPost({ commit, dispatch }, payload){
+			dispatch('manageLoading', true);
+			dispatch('manageError', null);
 			const config = { headers: { 'Authorization': 'JWT ' + localStorage.getItem('jwt'),
                        'Content-Type': 'multipart/form-data' }};
 			axios.post('/posts/', payload, config).then(response => {
-				commit('setLoading', false);
-				if (response.data){
-					commit('addPost', response.data);
-					router.push('/');
-				}
+				commit('manageLoading', false);
+				commit('addPost', response.data);
+				router.push('/');
 			})
 			.catch(error => {
-				commit('setLoading', false);
-				commit('setError', error);
-				if (error.response.data.detail){
-					commit('setErrorMessage', state.error.response.data.detail);
-					router.push('/signin');
-				}
+				dispatch('manageLoading', false);
+				dispatch('manageError', error);
 			});
 		}
 	}

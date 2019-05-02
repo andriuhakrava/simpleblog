@@ -3,26 +3,26 @@
     <div class="navigation-topic">
       <router-link to="/" class="navbar-brand">SimpleBlog</router-link>
       <router-link to="/new" active-class="active-navigation-item" 
-      						 class="nav-item nav-link" v-if="isAuthenticated">
+      						 class="nav-item nav-link" v-if="authenticatedUser">
       	Add new post
       </router-link>
     </div>
     <div class="navigation-user">
-      <span class="user-info" v-if="isAuthenticated">
-      	Hi, {{ this.$store.state.authenticatedUser }}!
+      <span class="user-info" v-if="authenticatedUser">
+      	Hi, {{ authenticatedUser }}!
       </span>
       <router-link to="/signin" active-class="active-navigation-item" 
-      						 class="nav-item nav-link" v-if="!isAuthenticated">
+      						 class="nav-item nav-link" v-if="!authenticatedUser">
       	Sign in
       </router-link>
       <router-link to="/signup" active-class="active-navigation-item" 
-      						 class="nav-item nav-link" v-if="!isAuthenticated">
+      						 class="nav-item nav-link" v-if="!authenticatedUser">
       	Sign up
       </router-link>
-      <a class="nav-item nav-link" @click.prevent="signOut" v-if="isAuthenticated">			Sign out
+      <a class="nav-item nav-link" @click.prevent="signOut" v-if="authenticatedUser">			Sign out
       </a>
       <router-link to="/userslist" active-class="active-navigation-item" 
-      						 class="nav-item nav-link" v-if="isAuthenticated">
+      						 class="nav-item nav-link" v-if="authenticatedUser">
       	Users List
       </router-link>
     </div>
@@ -30,11 +30,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 	export default {
 		computed: {
-      isAuthenticated(){
-        return this.$store.state.authenticatedUser;
-      }
+			...mapGetters(['authenticatedUser']),
     },
    	methods: {
       signOut(){

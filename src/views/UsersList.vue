@@ -16,7 +16,10 @@
 				<div class="user-text">
 					<p><strong>Email: </strong>{{ user.email }}</p>
 					<p><strong>Username: </strong>{{ user.username }}</p>
-					<p><strong>Joined: </strong>{{ usersListDate[index] }}</p>
+					<p v-if="usersListDate">
+						<strong>Joined: </strong>
+						{{ usersListDate[index] }}
+					</p>
 				</div>
 			</div>
 		</div>
@@ -28,7 +31,6 @@ import { mapGetters } from 'vuex';
 
 	export default {
 		created(){
-			console.log('Hello!');
 			this.$store.dispatch('getUsers');
 		},
 		computed: {
