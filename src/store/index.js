@@ -7,7 +7,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		user: '',
 		token: '',
 		authenticatedUser: '',
 		usersList: '',
@@ -17,9 +16,6 @@ export default new Vuex.Store({
 		errorMessage: ''
 	},
 	getters: {
-		userInfo(state){
-			return state.user;
-		},
 		usersList(state){
 			return state.usersList;
 		},
@@ -31,8 +27,7 @@ export default new Vuex.Store({
 		}
 	},
 	mutations: {
-		setUser(state, payload){
-			state.user = payload.user;
+		setToken(state, payload){
 			state.token = payload.token;
 		},
 		setUsername(state, payload){
@@ -69,8 +64,7 @@ export default new Vuex.Store({
 							localStorage.setItem('orig_iat', response.data.token);
 							localStorage.setItem('user', response.data.user.pk);
 							localStorage.setItem('username', response.data.user.username);
-							commit('setUser', {
-								user: response.data.user,
+							commit('setToken', {
 								token: response.data.token
 							});
 							commit('setUsername', localStorage.getItem('username'));
@@ -95,8 +89,7 @@ export default new Vuex.Store({
 							localStorage.setItem('orig_iat', response.data.token);
 							localStorage.setItem('user', response.data.user.pk);
 							localStorage.setItem('username', response.data.user.username);
-							commit('setUser', {
-								user: response.data.user,
+							commit('setToken', {
 								token: response.data.token
 							});
 							commit('setUsername', localStorage.getItem('username'));
@@ -113,7 +106,7 @@ export default new Vuex.Store({
 		logoutUser({ commit }){
    		localStorage.clear();
 			commit('setUsername', null);
-			commit('setUser', {user: null, token: null});
+			commit('setToken', { token: null });
 			commit('setError', null);
 			commit('setPostsList', null);
 			commit('setUsersList', null);
