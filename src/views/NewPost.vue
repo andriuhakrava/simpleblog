@@ -3,8 +3,7 @@
 		<h2 class="mt-5">Create new fresh and interesting POST</h2>
 		<div v-if="loading">
 			<img  src="../../public/images/loader.gif" 
-						height="350" 
-						width="350" 
+						class="loading-img"
 						alt="loading" />
 		</div>
 		<form v-else class="form-post" @submit.prevent="addPost">

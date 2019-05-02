@@ -3,16 +3,14 @@
 		<h2 class="mt-4">Users List</h2>
 		<div v-if="loading">
 			<img 	src="../../public/images/loader.gif" 
-						height="350" 
-						width="350" 
+						class="loading-img"
 						alt="loading" />
 		</div>
 		<div v-else class="user-card" v-for="(user, index) in usersList" :key="user.id">
 			<div class="user-info">
 				<div class="user-avatar">
 					<img 	src="../../public/images/avatar.png" 
-								height="128" 
-								width="128" 
+								class="user-avatar-img" 
 								alt="user" />
 				</div>
 				<div class="user-text">
@@ -58,6 +56,10 @@ import { mapGetters } from 'vuex';
 	}
 	.user-avatar {
 		padding: 9px 13px;
+	}
+	.user-avatar-img {
+		height: 128px;
+		width: 128px;
 	}
 	.user-text {
 		text-align: left;

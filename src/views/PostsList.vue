@@ -6,8 +6,7 @@
     </div>
     <div v-if="loading">
       <img  src="../../public/images/loader.gif" 
-            height="350" 
-            width="350" 
+            class="loading-img" 
             alt="loading" />
     </div>
     <div v-else class="post-list">

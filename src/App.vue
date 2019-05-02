@@ -31,6 +31,10 @@
   h2 {
     margin: 15px 0;
   }
+  .loading-img {
+    width: 350px;
+    height: 350px;
+  }
   .fade-enter-active {
     animation: fade-in 300ms ease-out forwards;
   }

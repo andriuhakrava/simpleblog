@@ -2,8 +2,7 @@
 	<div class="container">
 		<div v-if="loading">
 			<img  src="../../public/images/loader.gif" 
-						height="350" 
-						width="350" 
+						class="loading-img"
 						alt="loading" />
 		</div>
 		<form class="form-login" v-else @submit.prevent="onLogin">
