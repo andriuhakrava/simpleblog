@@ -5,9 +5,7 @@
       <p v-if="errorMessage">{{ errorMessage }}</p>
     </div>
     <div v-if="loading">
-      <img  src="../../public/images/loader.gif"
-            class="loading-img"
-            alt="loading" />
+      <img src="../../public/images/loader.gif" class="loading-img" alt="loading" />
     </div>
     <div v-else class="post-list">
       <div class="post-card" v-for="(post, index) in postsList" :key="post.id">

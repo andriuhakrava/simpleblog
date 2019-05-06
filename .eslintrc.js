@@ -13,6 +13,8 @@ module.exports = {
     'no-param-reassign': 0,
     'max-len': ['error', { code: 1222 }],
     'import/no-cycle': 'off',
+    'linebreak-style': ['error', 'windows'],
+    'no-shadow': ['error', { allow: ['state', 'error'] }],
   },
   parserOptions: {
     parser: 'babel-eslint',
