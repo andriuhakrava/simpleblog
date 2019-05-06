@@ -1,12 +1,12 @@
 <template>
   <div>
-  	<h2 class="mt-4">Posts List</h2>
+    <h2 class="mt-4">Posts List</h2>
     <div class="error-box" v-if="errorMessage">
       <p v-if="errorMessage">{{ errorMessage }}</p>
     </div>
     <div v-if="loading">
-      <img  src="../../public/images/loader.gif" 
-            class="loading-img" 
+      <img  src="../../public/images/loader.gif"
+            class="loading-img"
             alt="loading" />
     </div>
     <div v-else class="post-list">
@@ -15,7 +15,7 @@
           <h4>{{ post.title }}</h4>
           <p>{{ post.text }}</p>
           <p class="post-text_created" v-if="postsListDate">
-            <strong>Created at:</strong> 
+            <strong>Created at:</strong>
             {{ postsListDate[index] }}
           </p>
         </div>
@@ -30,18 +30,16 @@ import { mapGetters } from 'vuex';
 export default {
   computed: {
     ...mapGetters(['loading', 'postsList', 'errorMessage']),
-    postsListDate(){
-      const postsDates = this.postsList.map(post => {
-        return new Date(post.created).toLocaleString(); 
-      });
+    postsListDate() {
+      const postsDates = this.postsList.map(post => new Date(post.created).toLocaleString());
       return postsDates;
-    }
+    },
   },
-  beforeMount(){
+  beforeMount() {
     this.$store.dispatch('manageError', null);
     this.$store.dispatch('fetchPosts');
   },
-}
+};
 </script>
 
 <style scoped>
