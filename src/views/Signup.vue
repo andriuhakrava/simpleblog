@@ -8,14 +8,14 @@
     <form class="form-register" @submit.prevent="sendUserInfoForRegistration">
       <div class="form-group">
         <label for="inputUsername">Username: </label>
-        <input type="text" class="form-control" id="inputUsername" placeholder="Enter username" v-model="userInfo.username" :class="{ 'is-invalid': $v.userInfo.username.$error }" @blur="$v.userInfo.username.$touch()" required />
+        <input type="text" class="form-control" id="inputUsername" placeholder="Enter username" v-model="userInfo.username" :class="{ 'is-invalid': $v.userInfo.username.$error }" @blur="$v.userInfo.username.$touch()" autocomplete="off" required />
         <div class="invalid-feedback" v-if="!$v.userInfo.username.required">
           Username field is required
         </div>
       </div>
       <div class="form-group">
         <label for="inputEmail">Email address: </label>
-        <input type="email" class="form-control" id="inputEmail" placeholder="Enter email" v-model="userInfo.email" :class="{'is-invalid': $v.userInfo.email.$error}" @blur="$v.userInfo.email.$touch()" required />
+        <input type="email" class="form-control" id="inputEmail" placeholder="Enter email" v-model="userInfo.email" :class="{'is-invalid': $v.userInfo.email.$error}" @blur="$v.userInfo.email.$touch()" autocomplete="off" required />
         <div class="invalid-feedback" v-if="!$v.userInfo.email.required">
           Email field is required
         </div>
@@ -25,7 +25,7 @@
       </div>
       <div class="form-group">
         <label for="inputPassword1">Password:</label>
-        <input type="password" class="form-control" id="inputPassword1" placeholder="Enter Password" v-model="userInfo.password1" :class="{ 'is-invalid': $v.userInfo.password1.$error }" @blur="$v.userInfo.password1.$touch()" required />
+        <input type="password" class="form-control" id="inputPassword1" placeholder="Enter Password" v-model="userInfo.password1" :class="{ 'is-invalid': $v.userInfo.password1.$error }" @blur="$v.userInfo.password1.$touch()" autocomplete="off" required />
         <div class="invalid-feedback" v-if="!$v.userInfo.password1.required">
           Password field is required
         </div>
@@ -37,7 +37,7 @@
       </div>
       <div class="form-group">
         <label for="inputPassword2">Confirm password:</label>
-        <input type="password" class="form-control" id="inputPassword2" placeholder="Confirm Password" v-model="userInfo.password2" :class="{ 'is-invalid': $v.userInfo.password2.$error }" @blur="$v.userInfo.password2.$touch()" required />
+        <input type="password" class="form-control" id="inputPassword2" placeholder="Confirm Password" v-model="userInfo.password2" :class="{ 'is-invalid': $v.userInfo.password2.$error }" @blur="$v.userInfo.password2.$touch()" autocomplete="off" required />
         <div class="invalid-feedback" v-if="!$v.userInfo.password2.required">
           ConfirmPassword field is required
         </div>
