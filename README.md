@@ -3,7 +3,7 @@
 <p><b>SimpleBlog</b> - simple blog, created with Vue. It allows you to register here, to see list of all registered users and list of all created posts. Also you'll be able to creat your own interesting and informative post by going to the tab "Add new post".</p>
 
 <p>For testing purposes, the project was deployed on the <a href="https://www.netlify.com/" target="_blank">netlify</a> service and generated a link for it:
-<a href="https://priceless-montalcini-97291f.netlify.com" target="_blank">Simple Blog</a></p>
+<a href="https://simpleblog-andriuhakrava.netlify.com" target="_blank">Simple Blog</a></p>
 
 <h3>Setup</h3>
 
